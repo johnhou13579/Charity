@@ -1,0 +1,744 @@
+body{
+  margin:0px;
+}
+
+.text{
+  font-family: 'Avenir Next', Helvetica, Arial, sans-serif;
+  color: white;
+  font-weight: 500;
+  font-size: 14px;
+  outline: none;
+}
+
+.textB{
+  font-family: 'Avenir Next', Helvetica, Arial, sans-serif;
+  color: white;
+  font-weight: 500;
+  font-size: 12px;
+  outline: none;
+  letter-spacing: 1px;
+}
+
+.text:hover {
+    transform: translateY(-5px);
+    transition: transform .2s;
+    transition-timing-function: ease-in-out;
+}
+
+#balancebar{
+  float: left; 
+  width: 30%;
+}
+
+#content{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+}
+
+#homepage{
+  width:100%;
+  margin:0px;
+  height: 470px;
+  background: linear-gradient(#827ffe,#5492de);
+}
+
+#homepage2{
+  width:100%;
+  float:bottom;
+  margin:0px;
+  height: 570px;
+  background: #F8F8F8;
+}
+
+#homepageB{
+  width:100%;
+  margin:0px;
+  height: 800px;
+  background: linear-gradient(#827ffe,#5492de);
+}
+
+#mid{
+  position: absolute;
+  left: 50%;
+  top: 35%;
+  transform: translate(-50%, -50%);
+  font-family: 'Avenir Next', Helvetica, Arial, sans-serif; 
+  color: white; 
+  font-weight: 100; 
+  color: white;
+  text-align: center;
+}
+
+#midCharity{
+  position: absolute;
+  left: 10%;
+  top: 14%;
+  font-family: 'Avenir Next', Helvetica, Arial, sans-serif; 
+  color: white; 
+  font-weight: 100; 
+  color: white;
+  text-align: center;
+
+}
+
+
+#homepageCharity{
+  width:100%;
+  margin:0px;
+  height: 700px;
+  background: linear-gradient(#827ffe,#5492de);
+}
+
+
+#rightbox{
+  width:30%;
+  float: left;
+  margin: 5% 0% 0 3%;
+  padding: 0% 2% 1% 2%;
+  border-style: solid;
+  border-radius: 10px;
+  border-color: white;
+  background-color: white;
+  box-shadow: 0px 1px 2px 1px rgba(0,0,0,.2);
+}
+
+#leftbox{
+  width:15%;
+  float: left;
+  margin: 5% 0% 5% 5%;
+  padding: 0% 3% 3% 3%;
+  border-style: solid;
+  border-radius: 10px;
+  border-color: white;
+  max-height: 350px;
+  overflow: scroll;
+  scrollbar-width: thin;
+  background-color: white;
+  box-shadow: 0px 1px 2px 1px rgba(0,0,0,.2);
+}
+#leftbox::-webkit-scrollbar { 
+    display: none; 
+}
+
+#leftboxB{
+  width:20%;
+  float: left;
+  margin: 2% 0% 0% 4%;
+  padding: 0% 3% 3% 3%;
+  border-style: solid;
+  border-radius: 10px;
+  border-color: white;
+  height: 150px;
+  background-color: white;
+  box-shadow: 0px 1px 2px 1px rgba(0,0,0,.2);
+}
+#leftboxB::-webkit-scrollbar { 
+    display: none; 
+}
+
+#leftboxCharity{
+  width:15%;
+  float: left;
+  position: absolute;
+  left: 3%;
+  top: 0px;
+  margin: 18% 0% 5% 3%;
+  padding: 0% 3% 3% 3%;
+  border-style: solid;
+  border-radius: 10px;
+  border-color: white;
+  max-height: 350px;
+  overflow: scroll;
+  scrollbar-width: thin;
+  background-color: white;
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,0.2);
+}
+#leftboxCharity::-webkit-scrollbar { 
+    display: none; 
+}
+
+#queryBox{
+  width:80%;
+  float: left;
+  height: 500px;
+  margin: 5% 7% 5% 7%;
+  padding: 2% 3% 3% 3%;
+  border-style: solid;
+  border-radius: 10px;
+  border-color: white;
+  overflow-y: scroll;
+  scrollbar-width: thin;
+  background-color: white;
+  box-shadow: 0px 6px 12px 5px rgba(0,0,0,.2);
+}
+
+
+
+#queryResult{
+  width:80%;
+  left:50%;
+  float: left;
+  margin: 3% 7% 0% 5%;
+  padding: 2% 3% 3% 3%;
+  border-style: solid;
+  border-radius: 10px;
+  border-color: white;
+  max-height: 500px;
+  background-color: white;
+}
+
+#queryBox::-webkit-scrollbar { 
+    display: none; 
+}
+
+#chatBox{
+  width:27.5%;
+  float: left;
+  margin: 5% 3% 5% 3%;
+  border-style:solid;
+  border-color:white;
+  background: white;
+  border-radius: 10px;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+  box-shadow: 0px 1px 2px 1px rgba(0,0,0,.2);
+}
+
+#chatBox::-webkit-scrollbar { 
+    width: 0;
+}
+
+#chatBoxCharity{
+  width:60%;
+  float: right;
+  position: absolute;
+  left: 23%;
+  top: 10%;
+  margin: 5% 3% 5% 10%;
+  border-style:solid;
+  border-color:white;
+  background: white;
+  border-radius: 10px;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+  
+}
+
+#chatBoxCharity::-webkit-scrollbar { 
+    width: 0;
+}
+
+#chatBoxPage{
+  width:60%;
+  height: 300px;
+  float: right;
+  margin: 2% 4% 5% 0%;
+  box-shadow: 0px 1px 2px 1px rgba(0,0,0,.2);
+  background: white;
+  border-radius: 10px;
+  padding-top: 10px;
+}
+
+
+#queryBoxChat{
+  width:80%;
+  height: 80%;
+  float: left;
+  margin: 5% 7% 5% 7%;
+  border-style: solid;
+  border-radius: 10px;
+  border-color: white;
+  background-color: white;
+}
+
+
+
+#output{
+  font-family: Ubuntu-Bold;
+  font-size: 10px;
+  color: #827ffe;
+  width: auto;
+  padding: 0% 0 0 10%;
+  max-height: 180px;
+  min-height: 180px;
+  overflow-y: scroll;
+  scrollbar-width: thin;
+}
+#output::-webkit-scrollbar { 
+    display: none; 
+}
+
+#chatWindow{
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-bottom: 5px;
+  width: 100%;
+  height: 100%;
+}
+
+
+#login-title {
+  font-family: Ubuntu-Bold;
+  font-size: 32px;
+  color: #827ffe;
+  line-height: 1.2;
+  text-transform: uppercase;
+  text-align: center;
+  width: 100%;
+  padding: 0px 0px 30px 0px;
+  font-weight: bold;
+}
+
+#home-title {
+  font-family: Ubuntu-Bold;
+  font-size: 10px;
+  color: #827ffe;
+  line-height: 1.2;
+  text-transform: uppercase;
+  text-align: left;
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
+  padding: 5px;
+  font-weight: bold;
+}
+
+#left-title,
+#historyDiv {
+  font-family: 'Avenir Next', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  color: #827ffe;
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: .7px;
+  width: 100%;
+  font-weight: 600;
+}
+
+#queryTitle{
+  font-family: 'Avenir Next', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  color: #827ffe;
+  text-transform: uppercase;
+  text-align: center;
+  width: 100%;
+  font-weight: bold;
+}
+
+#queryTitleChat{
+  font-family: 'Avenir Next', Helvetica, Arial, sans-serif;
+  font-size: 22px;
+  color: #827ffe;
+  text-transform: uppercase;
+  text-align: center;
+  width: 100%;
+  font-weight: 500;
+}
+
+#chatTitle {
+  font-family: 'Avenir Next', Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  color: #827ffe;
+  text-transform: uppercase;
+  text-align: left;
+  padding: 3% 0 5% 8%;
+  font-weight: 500;
+}
+
+.btn-group button {
+  background-color: #827ffe; /* Green background */
+  border: 1px solid white; /* Green border */
+  color: white; /* White text */
+  padding: 10px 24px; /* Some padding */
+  cursor: pointer; /* Pointer/hand icon */
+  float: left; /* Float the buttons side by side */
+  border-radius: 100px;
+  outline: none;
+}
+
+.btn-group button:not(:last-child) {
+  border-right: none; /* Prevent double borders */
+}
+
+/* Clear floats (clearfix hack) */
+.btn-group:after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.btn-group button:focus {
+  background-image: linear-gradient(to right, #7297ff , #aba9ff);
+}
+
+.btn-group button:hover {
+  background-color: #716fe2;
+}
+
+#username,
+#password,
+#charityNameRegister
+{
+  border-radius: 8px;
+  outline:none;
+  border-style: none;
+  font-family: Ubuntu-Bold;
+  color: #403866;
+  line-height: 1.2;
+  font-size: 18px;
+
+  display: block;
+  width: 90%;
+  margin-right: auto;
+  margin-left: auto;
+  background: #eee;
+  height: 62px;
+  padding: 0px 0px 0px 20px;
+  margin-bottom: 15px;
+  letter-spacing: 1px;
+  font-weight: bold;
+}
+
+#room{
+  border-radius: 100px;
+  outline:none;
+  border-style: none;
+  font-family: 'Avenir Next', Helvetica, Arial, sans-serif; 
+  font-size: 12px;
+
+  display: block;
+  width: 90%;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 25px;
+  background: #eee;
+  height: 32px;
+  padding: 0px 0px 0px 20px;
+  letter-spacing: 1px;
+  font-weight: 500;
+
+  color: black; 
+  line-height: 1.2;
+
+  background: white;
+  letter-spacing: 1px;
+  font-weight: 500;
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,0.2);
+}
+
+
+#bankAccount{
+  border-radius: 100px;
+  outline:none;
+  border-style: none;
+  font-family: 'Avenir Next', Helvetica, Arial, sans-serif; 
+  color: white; 
+  font-weight: 500; 
+  color: #5492de;
+  line-height: 1.2;
+  font-size: 12px;
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,0.2);
+  width: 100%;
+  background: white;
+  height: 32px;
+  padding: 0px 0px 0px 10%;
+  letter-spacing: 1px;
+}
+
+#bankAccount::placeholder{
+  color: #5492de;
+}
+
+#charityName{
+  border-radius: 100px;
+  outline:none;
+  border-style: none;
+  font-family: 'Avenir Next', Helvetica, Arial, sans-serif; 
+  color: black;
+  line-height: 1.2;
+  font-size: 12px;
+  display: block;
+  width: 95%;
+  margin-right: auto;
+  margin-left: 0;
+  background: white;
+  height: 32px;
+  padding: 0px 0px 0px 20px;
+  margin-bottom: 10px;
+  letter-spacing: 1px;
+  font-weight: bold;
+  box-shadow: 0 1px 3px 1px rgba(0,0,0,0.2);
+}
+
+
+#message{
+  border-radius: 100px;
+  outline:none;
+  border-style: none;
+  font-family: 'Avenir Next', Helvetica, Arial, sans-serif;
+  color: black; 
+  line-height: 1.2;
+  font-size: 10px;
+  padding-left:2%;
+  display: block;
+  float; left;
+  width: 80%;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  background: white;
+  height: 14px;
+  margin-bottom: 5px;
+  letter-spacing: 1px;
+  font-weight: bold;
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,0.2);
+}
+
+#login{
+  border-radius: 8px;
+  outline:none;
+  font-family: Ubuntu-Bold;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  text-transform: uppercase;
+  margin-top: 25px;
+  width: 95%;
+  height: 62px;
+  text-align:center;
+  background-image: linear-gradient(to right, #7297ff , #aba9ff);
+}
+
+#connectB{
+  border-radius: 100px;
+  cursor: pointer;
+  outline:none;
+  font-family: 'Avenir Next', Helvetica, Arial, sans-serif; 
+  color: white; 
+  border: 1.2px solid white;
+  font-weight: 500; 
+  font-size: 12px; 
+  cursor: pointer;
+  color: white;
+  width: 90px;
+  line-height: 1.2px;
+  height: 32px;
+  text-align:center;
+  letter-spacing: .7px;
+  background-color: transparent;
+  transition: background .25s ease-in-out, color .25s ease-in-out;
+}
+
+#connectB{
+  border-radius: 100px;
+  cursor: pointer;
+  outline:none;
+  font-family: 'Avenir Next', Helvetica, Arial, sans-serif; 
+  color: white; 
+  border: 1.2px solid white;
+  font-weight: 500; 
+  font-size: 12px; 
+  cursor: pointer;
+  color: white;
+  width: 90px;
+  line-height: 1.2px;
+  height: 32px;
+  text-align:center;
+  letter-spacing: .7px;
+  background-color: transparent;
+  transition: background .25s ease-in-out, color .25s ease-in-out;
+}
+
+#connectB:hover, #connectS:hover{
+  background: white;
+  color: black;
+}
+
+#connectS{
+  border-radius: 100px;
+  cursor: pointer;
+  outline:none;
+  font-family: 'Avenir Next', Helvetica, Arial, sans-serif; 
+  color: white; 
+  border: 1.2px solid white;
+  font-weight: 500; 
+  font-size: 12px; 
+  cursor: pointer;
+  color: white;
+  width: 90px;
+  line-height: 1.2px;
+  height: 32px;
+  text-align:center;
+  letter-spacing: .7px;
+  background-color: transparent;
+  transition: background .25s ease-in-out, color .25s ease-in-out;
+  }
+
+#search{
+  border-radius: 100px;
+  cursor: pointer;
+  outline:none;
+  font-family: 'Avenir Next', Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  color: #fff;
+  text-transform: uppercase;
+  margin-top: 3px;
+  padding-left: 1%;
+  width: 100%;
+  height: 32px;
+  text-align:center;
+  background-image: linear-gradient(to right, #7297ff , #aba9ff);
+}
+
+#donatedStyle{
+  border-radius: 100px;
+  outline:none;
+  font-family: Ubuntu-Bold;
+  font-size: 12px;
+  font-weight: bold;
+  color: #fff;
+  text-transform: uppercase;
+  margin-top: 3px;
+  padding-left: 1%;
+  width: 100%;
+  height: 40px;
+  text-align:center;
+  background-color: #827ffe;
+  cursor: pointer;
+}
+
+#send{
+  border-radius: 100px;
+  outline:none;
+  font-family: Ubuntu-Bold;
+  font-size: 12px;
+  font-weight: bold;
+  color: #fff;
+  float: right;
+  text-transform: uppercase;
+  margin-top: 3px;
+  margin-right: 10%;
+  padding-left: 1%;
+  width: 30%;
+  height: 20px;
+  text-align:center;
+  background-image: linear-gradient(to right, #7297ff , #aba9ff);
+  cursor: pointer;
+}
+
+
+#addChar{
+  border-radius: 100px;
+  outline:none;
+  font-family: 'Avenir Next', Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  color: #fff;
+  text-transform: ;
+  margin: 10px auto 5px auto;
+  width: 49.4%;
+  height: 32px;
+  text-align:center;
+  cursor: pointer;
+  background-image: linear-gradient(to right, #7297ff , #aba9ff);
+}
+
+#removeChar{
+  border-radius: 100px;
+  outline:none;
+  font-family: 'Avenir Next', Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  color: #fff;
+  text-transform: ;
+  margin: 10px auto 5px auto;
+  width: 49.4%;
+  height: 32px;
+  text-align:center;
+  cursor: pointer;
+  background-image: linear-gradient(to right, #aba9ff , #7297ff);
+}
+
+#alignButton,
+#connect,
+#spend{
+  display: flex;
+  justify-content: center;
+}
+#signup,
+#list,
+#addCharity{
+  font-family: Ubuntu-Bold;
+  font-size: 13px;
+  color: #827ffe;
+  text-align: center;
+  font-weight: bold;
+  margin-top: 10px;
+  color: #827ffe;
+}
+
+#quickSearch{
+  font-family: 'Avenir Next', Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  color: #827ffe;
+  text-align: center;
+  font-weight: bold;
+  margin-top: 10px;
+  color: #827ffe;
+  text-transform: uppercase;
+}
+
+
+#historylist{
+  font-family: Ubuntu-Bold;
+  font-size: 13px;
+  color: #827ffe;
+  text-align: left;
+  font-weight: bold;
+  margin: 10px 0px 0px 0px;
+  padding-inline-start: 0px; 
+  scrollbar-width: thin;
+}
+
+a:link {
+  color: #827ffe;
+}
+
+.vl {
+  border-left: 2px solid white;
+  height: 30px;
+  position: absolute;
+  left: 130%;
+  border-radius: 100px;
+  margin-left: -3px;
+  margin-top:2px;
+  top: 0;
+}
+
+#setroom, #unsetroom{
+  border-radius: 100px;
+  outline:none;
+  font-family: 'Avenir Next', Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: #fff;
+  margin: 5px auto 5px auto;
+  width: 45%;
+  height: 26px;
+  text-align:center;
+  cursor: pointer;
+  background-image: linear-gradient(to right, #aba9ff , #7297ff);
+}
+
+#alignChat{
+  display: flex;
+  justify-content: center;
+}
+

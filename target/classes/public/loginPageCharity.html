@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+</head>
+<body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    
+    <div id="login-form">
+        <div id="content">
+            <div id="login-title"> Login </div>
+            <input type="text" id="charityNameRegister" placeholder="Charity Name">
+            <input type="text" id="username" placeholder="Username">
+            <input type="password" id="password" placeholder="Password">
+            <div id ="list">  </div>
+            <div id="alignButton"><button id = "login" class = "loginButton" onclick="login()">login </button></div>
+            <div id="signup"><A HREF = "/registerPage.html">Sign Up as User</A><br><br></div>
+            <div id="signup"><A HREF = "/registerPageCharity.html">Sign Up as Charity</A><br><br></div>
+
+        </div> 
+    </div>
+
+
+<script>
+	function login() {
+		var obj = {}
+		obj.username=document.getElementById('username').value
+		obj.password=document.getElementById('password').value
+        obj.charityName=document.getElementById('charityNameRegister').value
+		$.ajax({
+            type: 'POST',
+            url: 'http://52.53.239.8:80/loginCharity',
+            data: JSON.stringify(obj),
+            contentType: "application/json"
+        })
+        .done(function(data) {
+            var arr = JSON.stringify(data).replace(/}/g,'').replace(/]/g,'').replace(/{/g,'').replace(/\[/g,'').replace(/\\/g,'').replace(/"/g,'');
+            var split = arr.split(':');
+            window.location.href = '/indexCharity.html?user='+obj.username+'&auth='+split[1];        	
+            console.log(obj.username + " " + JSON.stringify(data));
+            
+        })
+        .fail(function(data) {
+            document.getElementById("list").innerHTML = "Wrong Username/Password. Try Again.";
+            console.log(data);
+        });
+    }
+
+</script>
+</body>
+</html>
