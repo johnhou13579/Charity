@@ -3,9 +3,9 @@
 ### Project idea : ###  
 - App that allows you to donate the change in your bank account to selected Charities, and will update News Feed with donations from friends.
 
-**Technologies:** Java | HTML | JS | Spring Framework | MySQL
+**Technologies:** Java | RESTful API | HTML | JS | Spring Framework | MySQL | Postman
 
-  - Will use Java to build project. Will create Charity and Clients as clients and MySQL as a database to store and update User information/balance. Sockets will allow chat between Users and Charitiesfor chat, deals, and FAQs.
+  - Will use Java to build project using Spring Framework, MySQL Database, and hosted with Tomcat Server on Amazon EC2 Instance. Will create Charity and Clients as clients and MySQL as a database to store and update User information/balance. Sockets will allow chat between Users and Charitiesfor chat, deals, and FAQs.
 
 **API calls to be created on Spring server:**
   - /registerUser - creates User with username and password
