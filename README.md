@@ -17,6 +17,7 @@
   - /sendMessage - sends message to selected Charity and based on message content, Charity will respond with appropriate responses.
   - /subscribe - User can subscribe to certain Charities and will be stored in database.
   - /sendDeals - Charities send message to server that sends to all subscribed Users with deals
+  - additions: /loginCharity, /registerCharity, /chat, /updateBalance, /updateBalanceCharity, /quickSearch, /searchSort, /searchSortCharity, /addCharity, /removeCharity
 
 ## Database Tables: ##
 
