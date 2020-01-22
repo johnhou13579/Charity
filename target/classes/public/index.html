@@ -78,7 +78,7 @@
 
 <script>
 
-var socket=io.connect("http://localhost:4000");
+var socket=io.connect("http://18.144.87.108:4000");
 
 var message = document.getElementById('message');
 var pathName = window.location.search;
@@ -116,7 +116,7 @@ function chat(){
     obj.username = handle;
     $.ajax({
             type: 'POST',
-            url: 'http://52.53.239.8:80/chat',
+            url: 'http://18.144.87.108:80/chat',
             data: JSON.stringify(obj),
             contentType: "application/json"
         })
@@ -175,7 +175,7 @@ function updateBalance() {
 
     $.ajax({
             type: 'POST',
-            url: 'http://52.53.239.8:80/updateBalance',
+            url: 'http://18.144.87.108:80/updateBalance',
             data: JSON.stringify(obj),
             contentType: "application/json"
         })
@@ -213,7 +213,7 @@ function spend() {
 
     $.ajax({
             type: 'POST',
-            url: 'http://52.53.239.8:80/spend',
+            url: 'http://18.144.87.108:80/spend',
             data: JSON.stringify(obj),
             contentType: "application/json"
         })
@@ -253,7 +253,7 @@ function connectBank() {
     }catch(err){document.getElementById("balance").innerHTML = 'Try Again';}
     $.ajax({
             type: 'POST',
-            url: 'http://52.53.239.8:80/connectToBank',
+            url: 'http://18.144.87.108:80/connectToBank',
             data: JSON.stringify(obj),
             contentType: "application/json"
         })
@@ -297,7 +297,7 @@ function donate() {
 
     $.ajax({
             type: 'POST',
-            url: 'http://52.53.239.8:80/donate',
+            url: 'http://18.144.87.108:80/donate',
             data: JSON.stringify(obj),
             contentType: "application/json"
         })
@@ -329,7 +329,7 @@ function quickSearch() {
         obj.username = handle;
         $.ajax({
             type: 'POST',
-            url: 'http://52.53.239.8:80/quickSearch',
+            url: 'http://18.144.87.108:80/quickSearch',
             data: JSON.stringify(obj),
             contentType: "application/json"
         })
@@ -364,7 +364,7 @@ function addCharity() {
         obj.username = array[0];
         $.ajax({
             type: 'POST',
-            url: 'http://52.53.239.8:80/addCharity',
+            url: 'http://18.144.87.108:80/addCharity',
             data: JSON.stringify(obj),
             contentType: "application/json"
         })
@@ -396,7 +396,7 @@ function removeCharity() {
         obj.auth = auth;
         $.ajax({
             type: 'POST',
-            url: 'http://52.53.239.8:80/removeCharity',
+            url: 'http://18.144.87.108:80/removeCharity',
             data: JSON.stringify(obj),
             contentType: "application/json"
         })

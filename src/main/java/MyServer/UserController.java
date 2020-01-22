@@ -1,6 +1,6 @@
-package myserver;
+package MyServer;
 
-import org.springframework.web.bind.annotation.*; 
+import org.springframework.web.bind.annotation.*;
 import org.springframework.http.*;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
