@@ -1,4 +1,4 @@
-myserver/User.class
-myserver/ServerListener.class
-myserver/UserController.class
-myserver/MyServer.class
+MyServer/ServerListener.class
+MyServer/UserController.class
+MyServer/MyServer.class
+MyServer/User.class

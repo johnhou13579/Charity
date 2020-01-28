@@ -18,6 +18,13 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import java.util.Map;
+import java.util.HashMap;
+import com.stripe.Stripe;
+import com.stripe.exception.StripeException;
+import com.stripe.model.Charge;
+import com.stripe.net.RequestOptions;
+
 import org.json.JSONObject;
 import org.json.JSONArray;
 
@@ -26,6 +33,33 @@ import java.net.*;
 
 @RestController
 public class UserController {
+
+	@RequestMapping(value = "/payment", method = RequestMethod.POST) 
+	public ResponseEntity<String> stripeTokenHandler(@RequestBody String payload, HttpServletRequest request) {
+		HttpHeaders responseHeaders = new HttpHeaders(); 
+    	responseHeaders.set("Content-Type", "application/json");
+
+		Stripe.apiKey = "sk_test_HmJL4qkhcOCVXMn5DhgkXD4L00a8KvV68U";
+
+		try{
+			// Token is created using Stripe Checkout or Elements!
+			// Get the payment token ID submitted by the form:
+			String token = request.getParameter("stripeToken");
+
+			Map<String, Object> params = new HashMap<>();
+			params.put("amount", 6969);
+			params.put("currency", "usd");
+			params.put("description", "Example charge");
+			params.put("source", token);
+			Charge charge = Charge.create(params);
+
+		}catch (StripeException e) {
+			// The card has been declined
+		}
+		
+		return new ResponseEntity("{\"message\":\"API Payment Called\"}", responseHeaders, HttpStatus.OK);
+
+	}
 
 	@RequestMapping(value = "/chat", method = RequestMethod.POST) 
 	public ResponseEntity<String> chat(@RequestBody String payload, HttpServletRequest request) {
