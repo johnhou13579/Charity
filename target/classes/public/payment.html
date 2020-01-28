@@ -9,7 +9,7 @@
 
     <div id="login-form">
         <div id="content">
-            <form action="/charge" method="post" id="payment-form">
+            <form method="post" id="payment-form">
               <div class="form-row">
                 <label for="card-element">
                   Credit or debit card
@@ -60,11 +60,24 @@
       hiddenInput.setAttribute('value', token.id);
       form.appendChild(hiddenInput);
 
-      // Submit the form
-      form.submit();
+      var obj = {}
+      obj.token = token.id;
+      $.ajax({
+            type: 'POST',
+            url: 'http://54.183.150.24:80/payment',
+            data: JSON.stringify(obj),
+            contentType: "application/json"
+        })
+        .done(function(data) {
+            console.log(JSON.stringify(data));
+            
+        })
+        .fail(function(data) {
+            console.log(data);
+        });
     }
 
-    
+
     function payment() {
         var obj = {}
         obj.username=document.getElementById('username').value

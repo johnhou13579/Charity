@@ -37,14 +37,14 @@ public class UserController {
 	@RequestMapping(value = "/payment", method = RequestMethod.POST) 
 	public ResponseEntity<String> stripeTokenHandler(@RequestBody String payload, HttpServletRequest request) {
 		HttpHeaders responseHeaders = new HttpHeaders(); 
+		JSONObject payloadObj = new JSONObject(payload);
     	responseHeaders.set("Content-Type", "application/json");
 
 		Stripe.apiKey = "sk_test_HmJL4qkhcOCVXMn5DhgkXD4L00a8KvV68U";
-
 		try{
 			// Token is created using Stripe Checkout or Elements!
 			// Get the payment token ID submitted by the form:
-			String token = request.getParameter("stripeToken");
+			String token = payloadObj.getString("token");
 
 			Map<String, Object> params = new HashMap<>();
 			params.put("amount", 6969);
