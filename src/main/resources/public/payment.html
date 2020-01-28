@@ -9,7 +9,7 @@
 
     <div id="login-form">
         <div id="content">
-            <form method="post" id="payment-form">
+            <form id="payment-form">
               <div class="form-row">
                 <label for="card-element">
                   Credit or debit card
@@ -31,7 +31,7 @@
 <script>
 //Saving Cards: https://stripe.com/docs/saving-cards
 
-    var stripe = Stripe('pk_test_QFNaDOXASUpwFKo16hntJiH200yS0N0aT0');
+    var stripe = Stripe('');
     var elements = stripe.elements();
 
     var form = document.getElementById('payment-form');
