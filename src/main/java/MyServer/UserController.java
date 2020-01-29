@@ -38,6 +38,7 @@ public class UserController {
 	public ResponseEntity<String> stripeTokenHandler(@RequestBody String payload, HttpServletRequest request) {
 		HttpHeaders responseHeaders = new HttpHeaders(); 
 		JSONObject payloadObj = new JSONObject(payload);
+		
     	responseHeaders.set("Content-Type", "application/json");
 
 		Stripe.apiKey = "sk_test_HmJL4qkhcOCVXMn5DhgkXD4L00a8KvV68U";
@@ -53,11 +54,53 @@ public class UserController {
 			params.put("source", token);
 			Charge charge = Charge.create(params);
 
+	        stmt.executeUpdate();
+	        	
+
 		}catch (StripeException e) {
 			// The card has been declined
 		}
 		
 		return new ResponseEntity("{\"message\":\"API Payment Called\"}", responseHeaders, HttpStatus.OK);
+
+	}
+
+	@RequestMapping(value = "/saveCard", method = RequestMethod.POST) 
+	public ResponseEntity<String> stripeTokenHandler(@RequestBody String payload, HttpServletRequest request) {
+		HttpHeaders responseHeaders = new HttpHeaders(); 
+		JSONObject payloadObj = new JSONObject(payload);
+		responseHeaders.set("Content-Type", "application/json");
+		Connection conn = null;
+
+		Stripe.apiKey = "sk_test_HmJL4qkhcOCVXMn5DhgkXD4L00a8KvV68U";
+		try{
+			// Token is created using Stripe Checkout or Elements!
+			// Get the payment token ID submitted by the form:
+			String token = payloadObj.getString("token");
+
+			Map<String, Object> customerParams = new HashMap<>();
+			customerParams.put("source", "tok_mastercard");
+			customerParams.put("email", "paying.user@example.com");
+			Customer customer = Customer.create(customerParams);
+
+			Map<String, Object> params = new HashMap<>();
+			params.put("amount", 420420);
+			params.put("currency", "usd");
+			params.put("description", "Example charge");
+			params.put("customer", customer.getId());
+			Charge charge = Charge.create(params);
+
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/charity?useUnicode=true&characterEncoding=UTF-8", "root", "snowleopard");
+			String query = "UPDATE charity.users SET hashedBankAccount = ? WHERE (username = example)";
+			PreparedStatement stmt = null;
+	        stmt = conn.prepareStatement(query);
+	        stmt.setString(1, customer.getId());
+
+		}catch (StripeException e) {
+			// The card has been declined
+		}
+		
+		return new ResponseEntity("{\"message\":\"Card Saved and Paid\"}", responseHeaders, HttpStatus.OK);
 
 	}
 	
