@@ -36,7 +36,7 @@
         </div> 
 
         <div class="vl"></div>
-        <div id="connect" style="display:block; float:left; position: absolute; left:140%;"><button id="connectB" class="loginButton" onclick="connectBank()">Connect</button> </div>
+        <div id="connect" style="display:block; float:left; position: absolute; left:140%;"><button id="connectB" class="loginButton" onclick="stripeTokenHandler()">Connect</button> </div>
 
     </div>
 
@@ -115,20 +115,6 @@ var elements = stripe.elements();
 
 var form = document.getElementById('payment-form');
 
-form.addEventListener('submit', function(event) {
-      event.preventDefault();
-
-      stripe.createToken(card).then(function(result) {
-        if (result.error) {
-          // Inform the customer that there was an error.
-          var errorElement = document.getElementById('card-errors');
-          errorElement.textContent = result.error.message;
-        } else {
-          // Send the token to your server.
-          stripeTokenHandler(result.token);
-        }
-      });
-    });
 
 if(auth==null)
 {
@@ -322,7 +308,21 @@ function connectBank() {
         connectBank = function(){};
 }
 
-function stripeTokenHandler(token) {
+function stripeTokenHandler() {
+
+    stripe.createToken(card).then(function(result) {
+        if (result.error) {
+          // Inform the customer that there was an error.
+          var errorElement = document.getElementById('card-errors');
+          errorElement.textContent = result.error.message;
+        } else {
+          // Send the token to your server.
+          stripeTokenHandler(result.token);
+        }
+      });
+      
+}
+function stripeTokenHandler2(token){
       // Insert the token ID into the form so it gets submitted to the server
       var form = document.getElementById('payment-form');
       var hiddenInput = document.createElement('input');
