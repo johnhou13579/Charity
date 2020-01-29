@@ -22,7 +22,7 @@
                 <div id="card-errors" role="alert"></div>
               </div>
 
-              <button>Submit Payment</button>
+              <button>Save Payment Method</button>
             </form>
         </div> 
     </div>
@@ -63,7 +63,7 @@
       obj.token = token.id;
       $.ajax({
             type: 'POST',
-            url: 'http://54.183.150.24:80/payment',
+            url: 'http://54.183.150.24:80/saveCard',
             data: JSON.stringify(obj),
             contentType: "application/json"
         })
@@ -83,7 +83,7 @@
         obj.password=document.getElementById('password').value
         $.ajax({
             type: 'POST',
-            url: 'http://54.183.150.24:80/payment',
+            url: 'http://54.183.150.24:80/saveCard',
             data: JSON.stringify(obj),
             contentType: "application/json"
         })

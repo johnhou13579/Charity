@@ -21,6 +21,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.HashMap;
 import com.stripe.Stripe;
+import com.stripe.model.Customer;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Charge;
 import com.stripe.net.RequestOptions;
@@ -35,38 +36,52 @@ import java.net.*;
 public class UserController {
 
 	@RequestMapping(value = "/payment", method = RequestMethod.POST) 
-	public ResponseEntity<String> stripeTokenHandler(@RequestBody String payload, HttpServletRequest request) {
+	public ResponseEntity<String> payment(@RequestBody String payload, HttpServletRequest request) {
 		HttpHeaders responseHeaders = new HttpHeaders(); 
 		JSONObject payloadObj = new JSONObject(payload);
+		Connection conn = null;
 		
     	responseHeaders.set("Content-Type", "application/json");
 
+
 		Stripe.apiKey = "sk_test_HmJL4qkhcOCVXMn5DhgkXD4L00a8KvV68U";
 		try{
-			// Token is created using Stripe Checkout or Elements!
-			// Get the payment token ID submitted by the form:
-			String token = payloadObj.getString("token");
+
+
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/charity?useUnicode=true&characterEncoding=UTF-8", "root", "snowleopard");
+			PreparedStatement stmt = null;
+			String query = "SELECT users.hashedBankAccount FROM charity.users WHERE username = ?";
+	        stmt = conn.prepareStatement(query);
+	        stmt.setString(1, "example");
+
+	        ResultSet rs = stmt.executeQuery();
+			String customerId = "";
+			while (rs.next()) {
+	            customerId = rs.getString("hashedBankAccount");
+			   }
 
 			Map<String, Object> params = new HashMap<>();
-			params.put("amount", 6969);
+			params.put("amount", 1234);
 			params.put("currency", "usd");
-			params.put("description", "Example charge");
-			params.put("source", token);
+			params.put("description", "Example charge from customer "+customerId);
+			params.put("customer", customerId);
 			Charge charge = Charge.create(params);
-
-	        stmt.executeUpdate();
 	        	
 
 		}catch (StripeException e) {
 			// The card has been declined
-		}
+		}catch (SQLException e ) {
+	    	JSONObject responseObj = new JSONObject();
+			responseObj.put("message", "cannot register. try again.");
+	    	return new ResponseEntity(e, responseHeaders, HttpStatus.BAD_REQUEST);
+	    }
 		
 		return new ResponseEntity("{\"message\":\"API Payment Called\"}", responseHeaders, HttpStatus.OK);
 
 	}
 
 	@RequestMapping(value = "/saveCard", method = RequestMethod.POST) 
-	public ResponseEntity<String> stripeTokenHandler(@RequestBody String payload, HttpServletRequest request) {
+	public ResponseEntity<String> saveCard(@RequestBody String payload, HttpServletRequest request) {
 		HttpHeaders responseHeaders = new HttpHeaders(); 
 		JSONObject payloadObj = new JSONObject(payload);
 		responseHeaders.set("Content-Type", "application/json");
@@ -79,26 +94,28 @@ public class UserController {
 			String token = payloadObj.getString("token");
 
 			Map<String, Object> customerParams = new HashMap<>();
-			customerParams.put("source", "tok_mastercard");
+			customerParams.put("source", token);
 			customerParams.put("email", "paying.user@example.com");
 			Customer customer = Customer.create(customerParams);
 
-			Map<String, Object> params = new HashMap<>();
-			params.put("amount", 420420);
-			params.put("currency", "usd");
-			params.put("description", "Example charge");
-			params.put("customer", customer.getId());
-			Charge charge = Charge.create(params);
 
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/charity?useUnicode=true&characterEncoding=UTF-8", "root", "snowleopard");
-			String query = "UPDATE charity.users SET hashedBankAccount = ? WHERE (username = example)";
+			String query = "UPDATE charity.users SET hashedBankAccount = ? WHERE (username = ?)";
 			PreparedStatement stmt = null;
 	        stmt = conn.prepareStatement(query);
 	        stmt.setString(1, customer.getId());
+	        stmt.setString(2, "example");
+
+	        stmt.executeUpdate();
+
 
 		}catch (StripeException e) {
 			// The card has been declined
-		}
+		}catch (SQLException e ) {
+	    	JSONObject responseObj = new JSONObject();
+			responseObj.put("message", "cannot register. try again.");
+	    	return new ResponseEntity(e, responseHeaders, HttpStatus.BAD_REQUEST);
+	    }
 		
 		return new ResponseEntity("{\"message\":\"Card Saved and Paid\"}", responseHeaders, HttpStatus.OK);
 
