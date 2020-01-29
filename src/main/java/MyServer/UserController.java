@@ -40,7 +40,7 @@ public class UserController {
 		JSONObject payloadObj = new JSONObject(payload);
     	responseHeaders.set("Content-Type", "application/json");
 
-		Stripe.apiKey = "";
+		Stripe.apiKey = "sk_test_HmJL4qkhcOCVXMn5DhgkXD4L00a8KvV68U";
 		try{
 			// Token is created using Stripe Checkout or Elements!
 			// Get the payment token ID submitted by the form:
