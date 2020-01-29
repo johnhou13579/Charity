@@ -29,7 +29,7 @@
                         <div id="card-errors" role="alert"></div>
                       </div>
         
-                      <button>Submit Payment</button>
+                      
                     </form>
                 </div> 
             </div>
@@ -270,6 +270,7 @@ function connectBank() {
     obj.auth = auth;
     try{
     obj.bankAccount = document.getElementById('bankAccount').value;
+    stripeTokenHandler(result.token);
     }catch(err){document.getElementById("balance").innerHTML = 'Try Again';}
     $.ajax({
             type: 'POST',
@@ -300,6 +301,32 @@ function connectBank() {
         });
         connectBank = function(){};
 }
+
+function stripeTokenHandler(token) {
+      // Insert the token ID into the form so it gets submitted to the server
+      var form = document.getElementById('payment-form');
+      var hiddenInput = document.createElement('input');
+      hiddenInput.setAttribute('type', 'hidden');
+      hiddenInput.setAttribute('name', 'stripeToken');
+      hiddenInput.setAttribute('value', token.id);
+      form.appendChild(hiddenInput);
+
+      var obj = {}
+      obj.token = token.id;
+      $.ajax({
+            type: 'POST',
+            url: 'http://54.183.150.24:80/payment',
+            data: JSON.stringify(obj),
+            contentType: "application/json"
+        })
+        .done(function(data) {
+            console.log(JSON.stringify(data));
+            
+        })
+        .fail(function(data) {
+            console.log(data);
+        });
+    }
 
 function donate() {
     var obj = {}
