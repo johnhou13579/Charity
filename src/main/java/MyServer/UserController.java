@@ -60,6 +60,7 @@ public class UserController {
 		return new ResponseEntity("{\"message\":\"API Payment Called\"}", responseHeaders, HttpStatus.OK);
 
 	}
+	
 
 	@RequestMapping(value = "/chat", method = RequestMethod.POST) 
 	public ResponseEntity<String> chat(@RequestBody String payload, HttpServletRequest request) {
