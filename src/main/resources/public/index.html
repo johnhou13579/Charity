@@ -12,9 +12,9 @@
     <div id="home-title" > <h1 style="font-family: 'Avenir Next', Helvetica, Arial, sans-serif; color: white; font-weight: 600; font-size: 24px; cursor: pointer; left: 20%">C$C</h1>  <button style="float:left; position: absolute; display: flex;  background-color: transparent; border-color: transparent; cursor: pointer; top:25px; left:13%;" onclick="homePage()"id="searchUsername" class="text" > Home </button>
     <button style="float:left; position: absolute; display: flex;  background-color: transparent; border-color: transparent; cursor: pointer; top:25px; left:20%;" onclick="searchPage()"id="searchUsername" class="text"> Charities </button><button style="float;left; position: absolute; display: flex;  background-color: transparent; border-color: transparent; cursor: pointer; top:25px; left:28%;" class="text" onclick="chatPage()"id="searchUsername"> Messages </button>
 
-    <div id="balanceBar" style="float:left; position: absolute; display: flex; top:30px; left:60%;">
+    <div id="balanceBar" style="float:left; position: absolute; display: flex; top:25px; left:60%; ">
         <div >
-            <div id="login-form" style="display:block">
+            <div id="login-form">
                 <div id="content">
                     <form id="payment-form">
                       <div class="form-row">
@@ -29,14 +29,14 @@
                         <div id="card-errors" role="alert"></div>
                       </div>
         
-                      
+                      <button>Submit Payment</button>
                     </form>
                 </div> 
             </div>
         </div> 
 
         <div class="vl"></div>
-        <div id="connect" style="display:block; float:left; position: absolute; left:140%;"><button id="connectB" class="loginButton" onclick="stripeTokenHandler()">Connect</button> </div>
+        <div id="connect" style="display:block; float:left; position: absolute; left:140%;"><button id="connectB" class="loginButton" onclick="connectBank()">Connect</button> </div>
 
     </div>
 
@@ -109,12 +109,6 @@ var handle = array[0];
 var arr = window.location.href;
 var autharr = arr.split("auth=");
 var auth = autharr[1];
-
-var stripe = Stripe('pk_test_QFNaDOXASUpwFKo16hntJiH200yS0N0aT0');
-var elements = stripe.elements();
-
-var form = document.getElementById('payment-form');
-
 
 if(auth==null)
 {
@@ -276,7 +270,6 @@ function connectBank() {
     obj.auth = auth;
     try{
     obj.bankAccount = document.getElementById('bankAccount').value;
-
     }catch(err){document.getElementById("balance").innerHTML = 'Try Again';}
     $.ajax({
             type: 'POST',
@@ -307,46 +300,6 @@ function connectBank() {
         });
         connectBank = function(){};
 }
-
-function stripeTokenHandler() {
-
-    stripe.createToken(card).then(function(result) {
-        if (result.error) {
-          // Inform the customer that there was an error.
-          var errorElement = document.getElementById('card-errors');
-          errorElement.textContent = result.error.message;
-        } else {
-          // Send the token to your server.
-          stripeTokenHandler(result.token);
-        }
-      });
-      
-}
-function stripeTokenHandler2(token){
-      // Insert the token ID into the form so it gets submitted to the server
-      var form = document.getElementById('payment-form');
-      var hiddenInput = document.createElement('input');
-      hiddenInput.setAttribute('type', 'hidden');
-      hiddenInput.setAttribute('name', 'stripeToken');
-      hiddenInput.setAttribute('value', token.id);
-      form.appendChild(hiddenInput);
-
-      var obj = {}
-      obj.token = token.id;
-      $.ajax({
-            type: 'POST',
-            url: 'http://54.183.150.24:80/payment',
-            data: JSON.stringify(obj),
-            contentType: "application/json"
-        })
-        .done(function(data) {
-            console.log(JSON.stringify(data));
-            
-        })
-        .fail(function(data) {
-            console.log(data);
-        });
-    }
 
 function donate() {
     var obj = {}
@@ -485,7 +438,24 @@ function removeCharity() {
     }
 
 
-    
+    var stripe = Stripe('pk_test_QFNaDOXASUpwFKo16hntJiH200yS0N0aT0');
+    var elements = stripe.elements();
+
+    var form = document.getElementById('payment-form');
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      stripe.createToken(card).then(function(result) {
+        if (result.error) {
+          // Inform the customer that there was an error.
+          var errorElement = document.getElementById('card-errors');
+          errorElement.textContent = result.error.message;
+        } else {
+          // Send the token to your server.
+          stripeTokenHandler(result.token);
+        }
+      });
+    });
 
     function stripeTokenHandler(token) {
       // Insert the token ID into the form so it gets submitted to the server
@@ -514,6 +484,27 @@ function removeCharity() {
     }
 
 
+    function payment() {
+        var obj = {}
+        obj.username=document.getElementById('username').value
+        obj.password=document.getElementById('password').value
+        $.ajax({
+            type: 'POST',
+            url: 'http://54.183.150.24:80/payment',
+            data: JSON.stringify(obj),
+            contentType: "application/json"
+        })
+        .done(function(data) {
+            var arr = JSON.stringify(data).replace(/}/g,'').replace(/]/g,'').replace(/{/g,'').replace(/\[/g,'').replace(/\\/g,'').replace(/"/g,'');
+            var split = arr.split(':');
+            console.log(JSON.stringify(data));
+            
+        })
+        .fail(function(data) {
+            document.getElementById("list").innerHTML = "Wrong Username/Password. Try Again.";
+            console.log(data);
+        });
+    }
 
     // Custom styling can be passed to options when creating an Element.
     var style = {
