@@ -24,6 +24,8 @@
 
               <button>Save Payment Method</button>
             </form>
+
+            <button onClick="pay()">Save Payment Method</button>
         </div> 
     </div>
 
@@ -77,24 +79,19 @@
     }
 
 
-    function payment() {
+    function pay() {
         var obj = {}
-        obj.username=document.getElementById('username').value
-        obj.password=document.getElementById('password').value
         $.ajax({
             type: 'POST',
-            url: 'http://54.183.150.24:80/saveCard',
+            url: 'http://54.183.150.24:80/payment',
             data: JSON.stringify(obj),
             contentType: "application/json"
         })
         .done(function(data) {
-            var arr = JSON.stringify(data).replace(/}/g,'').replace(/]/g,'').replace(/{/g,'').replace(/\[/g,'').replace(/\\/g,'').replace(/"/g,'');
-            var split = arr.split(':');
             console.log(JSON.stringify(data));
             
         })
         .fail(function(data) {
-            document.getElementById("list").innerHTML = "Wrong Username/Password. Try Again.";
             console.log(data);
         });
     }
