@@ -413,7 +413,7 @@ function total() {
         })
         .done(function(data) {
             console.log(JSON.stringify(obj));
-            document.getElementById("countDonates").innerHTML='$+'+data.toFixed(2)+' Donated'
+            document.getElementById("countDonates").innerHTML='$+'+parseFloat(data).toFixed(2)+' Donated'
         })
         .fail(function(data) {
             if(JSON.stringify(data).includes("Log Out"))
