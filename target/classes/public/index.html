@@ -104,7 +104,7 @@
 
 function updateAll(){
     previousBank()
-    total()
+    donate2()
     connectBank()
     spend()
     
@@ -396,23 +396,31 @@ function donate() {
         connectBank = function(){};
 }
 
-function total() {
-    var obj = {}   
+function donate2() {
+    var obj = {}
+    try{
+    var arr = (document.getElementById('balance').innerHTML).split(".");
+    obj.cents="."+ arr[1];
+    }catch(err){console.log("Bad Balance");}     
     var pathName = window.location.search;
     var array1 = pathName.split("=");
     var array2 = array1[1];
     var array = array2.split("&");
     obj.username = array[0];
     obj.auth = auth;
+    obj.charityName=document.getElementById('charityName').value
 
     $.ajax({
             type: 'POST',
-            url: 'http://54.183.150.24:80/total',
+            url: 'http://54.183.150.24:80/donate',
             data: JSON.stringify(obj),
             contentType: "application/json"
         })
         .done(function(data) {
+            updateBalance();
             console.log(JSON.stringify(obj));
+            var dt = new Date();
+            var utcDate = dt.toUTCString();
             document.getElementById("countDonates").innerHTML='$+'+parseFloat(data).toFixed(2)+' Donated'
         })
         .fail(function(data) {
@@ -425,6 +433,8 @@ function total() {
         });
         connectBank = function(){};
 }
+
+
 
 
 function quickSearch() {

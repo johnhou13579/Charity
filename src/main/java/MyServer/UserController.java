@@ -505,7 +505,7 @@ public class UserController {
 	    	}
 	        
 	    }
-		return new ResponseEntity(usersArray.toString(), responseHeaders, HttpStatus.OK);
+		return new ResponseEntity(usersArray, responseHeaders, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/updateBalanceCharity", method = RequestMethod.POST) // <-- setup the endpoint URL at /hello with the HTTP POST method
