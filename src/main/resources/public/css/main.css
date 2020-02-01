@@ -41,7 +41,7 @@ body{
 #homepage{
   width:100%;
   margin:0px;
-  height: 470px;
+  height: 600px;
   background: linear-gradient(#827ffe,#5492de);
 }
 
@@ -119,6 +119,22 @@ body{
   background-color: white;
   box-shadow: 0px 1px 2px 1px rgba(0,0,0,.2);
 }
+
+#transactionBox{
+  width:15%;
+  float: right;
+  margin: 5% 5% 5% 0%;
+  padding: 0% 3% 3% 3%;
+  border-style: solid;
+  border-radius: 10px;
+  border-color: white;
+  max-height: 350px;
+  overflow: scroll;
+  scrollbar-width: thin;
+  background-color: white;
+  box-shadow: 0px 1px 2px 1px rgba(0,0,0,.2);
+}
+
 #leftbox::-webkit-scrollbar { 
     display: none; 
 }
@@ -697,7 +713,18 @@ body{
 
 
 #historylist{
-  font-family: Ubuntu-Bold;
+  font-family: 'Avenir Next', Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  color: #827ffe;
+  text-align: left;
+  font-weight: bold;
+  margin: 10px 0px 0px 0px;
+  padding-inline-start: 0px; 
+  scrollbar-width: thin;
+}
+
+#bankList{
+  font-family: 'Avenir Next', Helvetica, Arial, sans-serif;
   font-size: 13px;
   color: #827ffe;
   text-align: left;
@@ -876,4 +903,17 @@ a:link {
 
 .example.example4 .success .reset path {
   fill: #d782d9;
+}
+
+.dot {
+
+  height: 40px;
+  width: 40px;
+  background-color: #ccccff;
+  border-radius: 50%;
+  display: inline-block;
+  cursor: pointer;
+  margin-top: 30px;
+  margin-left: 10px;
+  margin-right: 10px;
 }

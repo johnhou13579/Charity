@@ -462,6 +462,52 @@ public class UserController {
 		return new ResponseEntity(usersArray.toString(), responseHeaders, HttpStatus.OK);
 	}
 
+	@RequestMapping(value = "/total", method = RequestMethod.POST) // <-- setup the endpoint URL at /hello with the HTTP POST method
+	public ResponseEntity<String> total(@RequestBody String payload, HttpServletRequest request) {
+		JSONObject payloadObj = new JSONObject(payload);
+		String username = payloadObj.getString("username"); 
+
+		HttpHeaders responseHeaders = new HttpHeaders(); 
+    	responseHeaders.set("Content-Type", "application/json");
+		Connection conn = null;
+		JSONArray usersArray = new JSONArray();
+
+		String auth = payloadObj.getString("auth");
+		if(!auth.equals(MyServer.users.get(username)))
+		{
+			return new ResponseEntity("{\"message\":\"Log Out\"}", responseHeaders, HttpStatus.BAD_REQUEST);
+		}
+
+	    try {
+	    	conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/charity?useUnicode=true&characterEncoding=UTF-8", "root", "snowleopard");
+			String query = "SELECT users.donatedTotal FROM charity.users WHERE username = ?";
+			PreparedStatement stmt = null;
+	        stmt = conn.prepareStatement(query);
+	        stmt.setString(1, username);
+
+	        ResultSet rs = stmt.executeQuery();
+			
+			while (rs.next()) {
+	            Double total = rs.getDouble("users.donatedTotal");
+
+	            JSONObject obj = new JSONObject();
+	            obj.put("donatedTotal", total);
+	            usersArray.put(obj);
+			   }
+	        
+	    } catch (Exception e ) {
+	    	return new ResponseEntity("{\"message\":\"Error. Try Again\"}", responseHeaders, HttpStatus.BAD_REQUEST);
+	    } finally {
+	    	try {
+	    		if (conn != null) { conn.close(); }
+	    	}catch(SQLException se) {
+
+	    	}
+	        
+	    }
+		return new ResponseEntity(usersArray.toString(), responseHeaders, HttpStatus.OK);
+	}
+
 	@RequestMapping(value = "/updateBalanceCharity", method = RequestMethod.POST) // <-- setup the endpoint URL at /hello with the HTTP POST method
 	public ResponseEntity<String> updateBalanceCharity(@RequestBody String payload, HttpServletRequest request) {
 		JSONObject payloadObj = new JSONObject(payload);
@@ -532,7 +578,7 @@ public class UserController {
 			String query = "UPDATE charity.users SET users.balance = users.balance-.? WHERE users.username = ?";
 			PreparedStatement stmt = null;
 			stmt = conn.prepareStatement(query);
-			stmt.setInt(1,(int)(Math.random() * 100));
+			stmt.setInt(1,(int)(Math.random() * 1000));
 			stmt.setString(2,username);
 			stmt.executeUpdate();
 
@@ -558,6 +604,55 @@ public class UserController {
 	    		if (conn != null) { conn.close(); }
 	    	}catch(SQLException se) {
 
+	    	}
+	        
+	    }
+		return new ResponseEntity(usersArray.toString(), responseHeaders, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/previousBank", method = RequestMethod.POST) // <-- setup the endpoint URL at /hello with the HTTP POST method
+	public ResponseEntity<String> previousBank(@RequestBody String payload, HttpServletRequest request) {
+		JSONObject payloadObj = new JSONObject(payload);
+		String username = payloadObj.getString("username"); 
+		int purchaseCount = payloadObj.getInt("purchaseCount");
+
+		HttpHeaders responseHeaders = new HttpHeaders(); 
+    	responseHeaders.set("Content-Type", "application/json");
+		Connection conn = null;
+		JSONArray usersArray = new JSONArray();
+
+		String auth = payloadObj.getString("auth");
+		if(!auth.equals(MyServer.users.get(username)))
+		{
+			return new ResponseEntity("{\"message\":\"Log Out\"}", responseHeaders, HttpStatus.BAD_REQUEST);
+		}
+
+	    try {
+	    	conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/charity?useUnicode=true&characterEncoding=UTF-8", "root", "snowleopard");
+			PreparedStatement stmt = null;
+
+			String query = "SELECT * FROM charity.bank_history order by date limit ?";
+	        stmt = conn.prepareStatement(query);
+	        stmt.setInt(1, purchaseCount);
+	        ResultSet rs = stmt.executeQuery();
+			
+			while (rs.next()) {
+				String name = rs.getString("bank_history.store");
+	            double cost = rs.getDouble("bank_history.cost");
+
+	            JSONObject obj = new JSONObject();
+	            obj.put("Name", name);
+	            obj.put("Cost", cost);
+	            usersArray.put(obj);
+			   }
+	        
+	    } catch (SQLException e ) {
+	    	
+	    } finally {
+	    	try {
+	    		if (conn != null) { conn.close(); }
+	    	}catch(Exception se) {
+	    		return new ResponseEntity("{\"message\":\"Error. Try Again\"}", responseHeaders, HttpStatus.BAD_REQUEST);
 	    	}
 	        
 	    }

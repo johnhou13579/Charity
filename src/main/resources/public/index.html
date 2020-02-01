@@ -4,7 +4,7 @@
     <link rel="stylesheet" type="text/css" href="css/main.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
 </head>
-<body>
+<body onload="updateAll()">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 <script src="https://js.stripe.com/v3/"></script>
 
@@ -28,7 +28,7 @@
 
             <div class="vl" style="left:150%;"></div>
 
-            <div id = "spend" style="display:block; float:left; position: absolute; left:200%; top:0px"><button id="connectS" class ="loginButton" onclick="spend()">Spend</button> </div>
+            <div id = "spend" style="display:block; float:left; position: absolute; left:200%; top:0px"><button id="connectS" class ="loginButton" onclick="spend()">Update</button> </div>
 
         </div> 
 
@@ -36,17 +36,39 @@
     <button style="float;left; position: absolute; display: flex;  background-color: transparent; border-color: transparent; cursor: pointer; top:25px; left:90%;" onclick="chatPage()"id="searchUsername" class="text"> Help </button>
     </div>
 
+
+    <div id="leftbox">
+        <div id="historyDiv">
+         <h4>Bank History </h4> <hr>
+        <div id="history"> 
+                <ol id="bankList" style="list-style-type:none;"> </ol>
+        </div> </div>
+        </div>
+
     <div id="mid">
-        <p style="margin:0px;">Account Balance</p>
-        <p style="font-size: 52px; margin:0px;" id="balanceUpdate">$--.--</p>
-        <p style="margin:0px;" id="countDonates">+$0.00 Donated</p>
+        <p style="font-size: 32px; font-weight: 450; margin:0px;">American Cancer Society Charity</p>
+        <p style="font-size: 22px; margin:5px;" id="countDonates"></p>
+        <div id="circles">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>
     </div>
+
+     <div id="transactionBox">
+        <div id="historyDiv">
+         <h4>Transaction History </h4> <hr>
+        <div id="history"> 
+                <ol id="historylist" style="list-style-type:none;"> </ol>
+        </div> </div>
+        </div>
 
     
 </div>
 
 <div id="homepage2">
-    <div id="leftbox">
+    <div id="leftbox" style="visibility: hidden">
         <div id="historyDiv">
          <h4>Transaction History </h4> <hr>
         <div id="history"> 
@@ -64,7 +86,7 @@
 
          <button id="addChar" onclick="addCharity(); quickSearch();">Add Charity to List</button> 
         <button id="removeChar" onclick="removeCharity();">Remove From List</button> 
-        <div id = "donatediv" style="display: none;"><button id="donatedStyle" onclick="donate()">Donate</button> </div>  
+        <div id = "donatediv"><button id="donatedStyle" onclick="donate()">Donate</button> </div>  
     </div>
 
     <div id="chatBox">
@@ -80,6 +102,14 @@
 
 <script>
 
+function updateAll(){
+    previousBank()
+    total()
+    connectBank()
+    spend()
+    
+}
+
 var socket=io.connect("http://localhost:4000");
 
 var message = document.getElementById('message');
@@ -91,6 +121,7 @@ var handle = array[0];
 var arr = window.location.href;
 var autharr = arr.split("auth=");
 var auth = autharr[1];
+var purchaseCount = 4;
 
 if(auth==null)
 {
@@ -110,6 +141,50 @@ btn.addEventListener('click',function(){
 socket.on('chat', function(data){
     output.innerHTML += '<p><strong>' + data.handle+':</strong>'+ data.message +'</p>';
 })
+
+function previousBank(){
+    var obj = {}
+
+    try{
+    obj.balance=document.getElementById('balance').value;
+    }catch(err){console.log("Bad Balance");}     
+    var pathName = window.location.search;
+    var array1 = pathName.split("=");
+    var array2 = array1[1];
+    var array = array2.split("&");
+    obj.username = array[0];
+    obj.auth = auth;
+    obj.purchaseCount = purchaseCount;
+
+    $.ajax({
+            type: 'POST',
+            url: 'http://54.183.150.24:80/previousBank',
+            data: JSON.stringify(obj),
+            contentType: "application/json"
+        })
+        .done(function(data) {
+            var dt = new Date();
+            var utcDate = dt.toUTCString();
+
+            var path = JSON.stringify(data).replace(/\}/g,'').replace(/\]/g,'').replace(/\[/g,'').replace(/}/g,'').replace(/{/g,'').replace(/\"/g,'').replace(/Cost:/g,'').replace(/Name:/g,'');
+            var array = path.split(",");
+
+            console.log(array);
+            $('#bankList').empty();
+            for(var i=0; i<array.length-1;i+=2){
+                $("#bankList").prepend('<u style="font-size: 13px;"> '+array[i+1] +'</u>'+ '<br>' + '<span style="font-size: 12px;"> Amount: $: ' + array[i]+ '</span><br><br>');
+            }
+            purchaseCount++;
+            
+        })
+        .fail(function(data) {
+            if(JSON.stringify(data).includes("Log Out"))
+            {
+                window.location.href = '/loginPage.html';
+            }
+            console.log("Failed" + JSON.stringify(data));
+        });
+}
 
 function chat(){
     var obj = {}
@@ -174,6 +249,7 @@ function updateBalance() {
     var array = array2.split("&");
     obj.username = array[0];
     obj.auth = auth;
+    purchaseCount++;
 
     $.ajax({
             type: 'POST',
@@ -187,7 +263,6 @@ function updateBalance() {
             var amount = parseFloat(JSON.stringify(array[1]).replace(/\"/g,''));
             var amount2 = amount.toFixed(2);
             document.getElementById("balance").innerHTML='$'+amount2;
-            document.getElementById("balanceUpdate").innerHTML='$'+amount2;
             console.log(JSON.stringify(obj));
         })
         .fail(function(data) {
@@ -225,8 +300,8 @@ function spend() {
             var amount = parseFloat(JSON.stringify(array[1]).replace(/\"/g,''));
             var amount2 = amount.toFixed(2);
             document.getElementById("balance").innerHTML='$'+amount2;
-            document.getElementById("balanceUpdate").innerHTML='$'+amount2;
             console.log(JSON.stringify(obj));
+            previousBank();
         })
         .fail(function(data) {
             if(JSON.stringify(data).includes("Log Out"))
@@ -264,7 +339,6 @@ function connectBank() {
             var newBalance = JSON.stringify(data);
             var array = newBalance.split("\"");
             document.getElementById("balance").innerHTML='$'+array;
-            document.getElementById("balanceUpdate").innerHTML='$'+array;
             document.getElementById("connect").style.display = 'none';
             document.getElementById("spend").style.display = 'block';
             console.log(JSON.stringify(obj));
@@ -306,10 +380,39 @@ function donate() {
         .done(function(data) {
             updateBalance();
             console.log(JSON.stringify(obj));
-            quickSearch();
             var dt = new Date();
             var utcDate = dt.toUTCString();
             $("#historylist").prepend('<u>'+obj.charityName +'</u>'+ '<br>' + 'Amount: $' + obj.cents+ '<br>' + utcDate + '<br><br>');
+            document.getElementById("countDonates").innerHTML='$+'+parseFloat(data).toFixed(2)+' Donated'
+        })
+        .fail(function(data) {
+            if(JSON.stringify(data).includes("Log Out"))
+            {
+                window.location.href = '/loginPage.html';
+            }
+            console.log("Failed" + JSON.stringify(obj) + document.getElementById('balance').innerHTML + JSON.stringify(data));
+            console.log(data);
+        });
+        connectBank = function(){};
+}
+
+function total() {
+    var obj = {}   
+    var pathName = window.location.search;
+    var array1 = pathName.split("=");
+    var array2 = array1[1];
+    var array = array2.split("&");
+    obj.username = array[0];
+    obj.auth = auth;
+
+    $.ajax({
+            type: 'POST',
+            url: 'http://54.183.150.24:80/total',
+            data: JSON.stringify(obj),
+            contentType: "application/json"
+        })
+        .done(function(data) {
+            console.log(JSON.stringify(obj));
             document.getElementById("countDonates").innerHTML='$+'+data.toFixed(2)+' Donated'
         })
         .fail(function(data) {
