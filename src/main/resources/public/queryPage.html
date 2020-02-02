@@ -11,10 +11,11 @@
 
 <div id="homepageB" >
     <div id="home-title" > <h1 style="font-family: 'Avenir Next', Helvetica, Arial, sans-serif; color: white; font-weight: 600; font-size: 24px; cursor: pointer; left: 20%">C$C</h1>  <button style="float:left; position: absolute; display: flex;  background-color: transparent; border-color: transparent; cursor: pointer; top:25px; left:13%;" onclick="homePage()"id="searchUsername" class="text" > Home </button>
-    <button style="float:left; position: absolute; display: flex;  background-color: transparent; border-color: transparent; cursor: pointer; top:25px; left:20%;" onclick="searchPage()"id="searchUsername" class="text"> Charities </button><button style="float;left; position: absolute; display: flex;  background-color: transparent; border-color: transparent; cursor: pointer; top:25px; left:28%;" class="text" onclick="chatPage()"id="searchUsername"> Messages </button>
+    <button style="float:left; position: absolute; display: flex;  background-color: transparent; border-color: transparent; cursor: pointer; top:25px; left:20%;" onclick="searchPage()"id="searchUsername" class="text"> Charities </button>
+    <button style="float:left; position: absolute; display: flex;  background-color: transparent; border-color: transparent; cursor: pointer; top:25px; left:28%;" onclick="paymentPage()"id="searchUsername" class="text"> Payment </button>
 
     
-    <button style="float;left; position: absolute; display: flex;  background-color: transparent; border-color: transparent; cursor: pointer; top:25px; left:90%;" onclick="chatPage()"id="searchUsername" class="text"> Help </button>
+    <button style="float;left; position: absolute; display: flex;  background-color: transparent; border-color: transparent; cursor: pointer; top:25px; left:90%;" onclick="logout()"id="searchUsername" class="text"> Logout </button>
     </div>
 
             
@@ -125,5 +126,9 @@ function homePage(){
     var array = array2.split("&");
     var username = array[0];
     window.location.href = '/index.html?user='+username+'&auth='+auth;
+}
+
+function logout(){
+    window.location.href = '/loginPage.html';
 }
 </script>

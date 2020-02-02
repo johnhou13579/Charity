@@ -2,15 +2,17 @@
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="css/main.css"/>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
 </head>
 <body onload="updateAll()">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 <script src="https://js.stripe.com/v3/"></script>
 
+
 <div id="homepage" >
     <div id="home-title" > <h1 style="font-family: 'Avenir Next', Helvetica, Arial, sans-serif; color: white; font-weight: 600; font-size: 24px; cursor: pointer; left: 20%">C$C</h1>  <button style="float:left; position: absolute; display: flex;  background-color: transparent; border-color: transparent; cursor: pointer; top:25px; left:13%;" onclick="homePage()"id="searchUsername" class="text" > Home </button>
-    <button style="float:left; position: absolute; display: flex;  background-color: transparent; border-color: transparent; cursor: pointer; top:25px; left:20%;" onclick="searchPage()"id="searchUsername" class="text"> Charities </button><button style="float;left; position: absolute; display: flex;  background-color: transparent; border-color: transparent; cursor: pointer; top:25px; left:28%;" class="text" onclick="chatPage()"id="searchUsername"> Messages </button>
+    <button style="float:left; position: absolute; display: flex;  background-color: transparent; border-color: transparent; cursor: pointer; top:25px; left:20%;" onclick="searchPage()"id="searchUsername" class="text"> Charities </button><button style="float:left; position: absolute; display: flex;  background-color: transparent; border-color: transparent; cursor: pointer; top:25px; left:28%;" onclick="paymentPage()"id="searchUsername" class="text"> Payment </button>
 
     <div id="balanceBar" style="float:left; position: absolute; display: flex; top:25px; left:60%; ">
         <div >
@@ -33,37 +35,53 @@
         </div> 
 
     </div>
-    <button style="float;left; position: absolute; display: flex;  background-color: transparent; border-color: transparent; cursor: pointer; top:25px; left:90%;" onclick="chatPage()"id="searchUsername" class="text"> Help </button>
+    <button style="float;left; position: absolute; display: flex;  background-color: transparent; border-color: transparent; cursor: pointer; top:25px; left:90%;" onclick="logout()"id="searchUsername" class="text"> Logout </button>
     </div>
 
 
     <div id="leftbox">
         <div id="historyDiv">
-         <h4>Bank History </h4> <hr>
+         <h4 style="font-weight: 500; font-size: 16px">Bank History </h4> <hr>
         <div id="history"> 
                 <ol id="bankList" style="list-style-type:none;"> </ol>
         </div> </div>
         </div>
 
     <div id="mid">
-        <p style="font-size: 32px; font-weight: 450; margin:0px;">American Cancer Society Charity</p>
+        <p id = "mainName" style="font-size: 32px; font-weight: 450; margin:0px;">Select a Charity</p>
         <p style="font-size: 22px; margin:5px;" id="countDonates"></p>
+         _____________________________________
         <div id="circles">
-            <span class="dot"></span>
-            <span class="dot"></span>
-            <span class="dot"></span>
-            <span class="dot"></span>
+            <img src = "assets/wwf.png" id = "World Wildlife Fund" class = "dot" onclick="changeText(this.id)" >
+            <img src = "assets/defend.png" id = "Defenders of Wildlife" class = "dot" onclick="changeText(this.id)" >
+            <img src = "assets/trees.png" id = "National Forest Foundation" class = "dot" onclick="changeText(this.id)" >
+            <img src = "assets/stjude.png" id = "St. Jude Children Hospital" class = "dot" onclick="changeText(this.id)" >
         </div>
+       
+
     </div>
 
      <div id="transactionBox">
         <div id="historyDiv">
-         <h4>Transaction History </h4> <hr>
+         <h4 style="font-weight: 500; font-size: 16px">Recent Donations </h4> <hr>
         <div id="history"> 
                 <ol id="historylist" style="list-style-type:none;"> </ol>
         </div> </div>
         </div>
 
+        <div id="rightbox2">
+            <h4 style="font-weight: 600px; margin-top: 0px;"><div id="left-title-show"> No Charity Selected </div></h4>
+            <p>  
+            </p>
+            
+            <div id="quickSearch"></div>
+            <div id="addCharity"></div>
+
+             <button id="addChar" onclick="addCharity();">Add Charity to List</button> 
+            <button id="removeChar" onclick="removeCharity();">Remove From List</button> 
+            <div id = "donatediv"><button id="donatedStyle" onclick="donate()">Donate</button> </div>  
+    </div>
+    <img  class = "hero" src = "assets/arrow.png">
     
 </div>
 
@@ -78,13 +96,13 @@
 
     <div id="rightbox">
         <div id="left-title"> <h4>Quick Search</h4> </div>
-        <p><input type="text" id="charityName" placeholder="ASL, Cancer, Autism, etc"> <button id="search" onclick="quickSearch()">Quick Search</button>  
+        <p><input type="text" id="charityName" placeholder="ASL, Cancer, Autism, etc"> <button id="search" >Quick Search</button>  
         </p>
         
         <div id="quickSearch"></div>
         <div id="addCharity"></div>
 
-         <button id="addChar" onclick="addCharity(); quickSearch();">Add Charity to List</button> 
+         <button id="addChar" onclick="addCharity();">Add Charity to List</button> 
         <button id="removeChar" onclick="removeCharity();">Remove From List</button> 
         <div id = "donatediv"><button id="donatedStyle" onclick="donate()">Donate</button> </div>  
     </div>
@@ -103,14 +121,11 @@
 <script>
 
 function updateAll(){
-    previousBank()
     connectBank()
-    donate2()
-    spend()
-    
+    previousBank()
+    donate2()    
 }
 
-var socket=io.connect("http://localhost:4000");
 
 var message = document.getElementById('message');
 var pathName = window.location.search;
@@ -121,7 +136,8 @@ var handle = array[0];
 var arr = window.location.href;
 var autharr = arr.split("auth=");
 var auth = autharr[1];
-var purchaseCount = 4;
+var purchaseCount = 3;
+var currentId = "";
 
 if(auth==null)
 {
@@ -131,16 +147,27 @@ if(auth==null)
 var btn = document.getElementById('send');
 var output = document.getElementById('output');
 
-btn.addEventListener('click',function(){
-    socket.emit('chat', {
-        message: message.value,
-        handle: handle
-    });
-});
 
 socket.on('chat', function(data){
     output.innerHTML += '<p><strong>' + data.handle+':</strong>'+ data.message +'</p>';
 })
+
+function changeText(id){
+    document.getElementById("mainName").innerHTML = id;
+    document.getElementById("left-title-show").innerHTML = id;
+    currentId = id;
+
+    if(id=="World Wildlife Fund"){
+        document.getElementById("quickSearch").innerHTML = "In the field of wilderness preservation, and the reduction of human impact on the environment.";
+    }else if(id=="Defenders of Wildlife"){
+        document.getElementById("quickSearch").innerHTML = "Its mission is to protect all native animals and plants throughout North America.";
+    }else if(id=="National Forest Foundation"){
+        document.getElementById("quickSearch").innerHTML = "Ensure a sustainable future for the many resources our National Forests and Grasslands provide to us all.";
+    }else if(id="St. Jude Children Hospital"){
+        document.getElementById("quickSearch").innerHTML = "St. Jude treats the toughest childhood cancers and pediatric diseases.";
+    }
+
+}
 
 function previousBank(){
     var obj = {}
@@ -171,8 +198,8 @@ function previousBank(){
 
             console.log(array);
             $('#bankList').empty();
-            for(var i=0; i<array.length-1;i+=2){
-                $("#bankList").prepend('<u style="font-size: 13px;"> '+array[i+1] +'</u>'+ '<br>' + '<span style="font-size: 12px;"> Amount: $: ' + array[i]+ '</span><br><br>');
+            for(var i=0; i<array.length-2;i+=2){
+                $("#bankList").prepend('<p style="font-weight: 700; font-size: 10px; float: left;"> '+array[i+1] +'</p>'+ '<p style="font-weight: 300; font-size: 10px; float: right">  $ ' + array[i]+ '</p><br><br>');
             }
             purchaseCount++;
             
@@ -186,30 +213,6 @@ function previousBank(){
         });
 }
 
-function chat(){
-    var obj = {}
-    obj.chat = document.getElementById("chat").value;
-    obj.auth = auth;
-    obj.username = handle;
-    $.ajax({
-            type: 'POST',
-            url: 'http://54.183.150.24:80/chat',
-            data: JSON.stringify(obj),
-            contentType: "application/json"
-        })
-        .done(function(data) {
-            document.getElementById("chatBox").innerHTML = JSON.stringify(data);
-            console.log(JSON.stringify(data));
-        })
-        .fail(function(data) {
-            if(JSON.stringify(data).includes("Log Out"))
-            {
-                window.location.href = '/loginPage.html';
-            }
-            console.log("Failed" + JSON.stringify(data));
-        });
-
-}
 
 function searchPage(){
     var pathName = window.location.search;
@@ -218,6 +221,15 @@ function searchPage(){
     var array = array2.split("&");
     var username = array[0];
     window.location.href = '/queryPage.html?user='+username+'&auth='+auth;
+}
+
+function paymentPage(){
+    var pathName = window.location.search;
+    var array1 = pathName.split("=");
+    var array2 = array1[1];
+    var array = array2.split("&");
+    var username = array[0];
+    window.location.href = '/payment.html?user='+username+'&auth='+auth;
 }
 
 function chatPage(){
@@ -238,6 +250,10 @@ function homePage(){
     window.location.href = '/index.html?user='+username+'&auth='+auth;
 }
 
+function logout(){
+    window.location.href = '/loginPage.html';
+}
+
 function updateBalance() {
     var obj = {}
     try{
@@ -249,7 +265,6 @@ function updateBalance() {
     var array = array2.split("&");
     obj.username = array[0];
     obj.auth = auth;
-    purchaseCount++;
 
     $.ajax({
             type: 'POST',
@@ -369,7 +384,7 @@ function donate() {
     var array = array2.split("&");
     obj.username = array[0];
     obj.auth = auth;
-    obj.charityName=document.getElementById('charityName').value
+    obj.charityName=currentId;
 
     $.ajax({
             type: 'POST',
@@ -382,7 +397,7 @@ function donate() {
             console.log(JSON.stringify(obj));
             var dt = new Date();
             var utcDate = dt.toUTCString();
-            $("#historylist").prepend('<u>'+obj.charityName +'</u>'+ '<br>' + 'Amount: $' + obj.cents+ '<br>' + utcDate + '<br><br>');
+            $("#historylist").prepend('<u>'+currentId +'</u>'+ '<br><span style="font-weight: 300">' + 'Amount: $' + obj.cents+ '<br> <span style="font-size:10px;">' + utcDate + '</span></span><br><br>');
             document.getElementById("countDonates").innerHTML='$+'+parseFloat(data).toFixed(2)+' Donated'
         })
         .fail(function(data) {
@@ -417,7 +432,6 @@ function donate2() {
             contentType: "application/json"
         })
         .done(function(data) {
-            updateBalance();
             console.log(JSON.stringify(obj));
             var dt = new Date();
             var utcDate = dt.toUTCString();
@@ -470,7 +484,7 @@ function quickSearch() {
 
 function addCharity() {
         var obj = {}
-        obj.charityName=document.getElementById('charityName').value
+        obj.charityName=currentId;
         obj.auth = auth;
         var pathName = window.location.search;
         var array1 = pathName.split("=");
@@ -484,7 +498,6 @@ function addCharity() {
             contentType: "application/json"
         })
         .done(function(data) {
-            quickSearch();
             console.log(JSON.stringify(obj));
             var pathName = JSON.stringify(data);
             var array = pathName.split("\"");
@@ -495,14 +508,14 @@ function addCharity() {
             {
                 window.location.href = '/loginPage.html';
             }
-            document.getElementById("addCharity").innerHTML = 'Error Adding Charity to List. Try Again';
+            document.getElementById("addCharity").innerHTML = 'Already Added to Subscribe List';
             console.log(JSON.stringify(obj));
         });
     }
 
 function removeCharity() {
         var obj = {}
-        obj.charityName=document.getElementById('charityName').value
+        obj.charityName=currentId;
         var pathName = window.location.search;
         var array1 = pathName.split("=");
         var array2 = array1[1];
@@ -516,7 +529,6 @@ function removeCharity() {
             contentType: "application/json"
         })
         .done(function(data) {
-            quickSearch();
             console.log(JSON.stringify(obj));
             var pathName = JSON.stringify(data);
             var array = pathName.split("\"");

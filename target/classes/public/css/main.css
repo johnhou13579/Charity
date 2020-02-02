@@ -2,6 +2,7 @@ body{
   margin:0px;
 }
 
+
 .text{
   font-family: 'Avenir Next', Helvetica, Arial, sans-serif;
   color: white;
@@ -25,6 +26,16 @@ body{
     transition-timing-function: ease-in-out;
 }
 
+.hero{
+  width: 70px;
+  height:70px;
+  position: absolute;
+  bottom:-3%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 30%;
+}
+
 #balancebar{
   float: left; 
   width: 30%;
@@ -38,11 +49,30 @@ body{
   width: 400px;
 }
 
+#payContent{
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  width: 400px;
+  height: 50;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%)
+  margin: 5% 0% 0 3%;
+  padding: 1% 2% 1% 2%;
+  border-style: solid;
+  border-radius: 10px;
+  border-color: white;
+  background-color: white;
+  box-shadow: 0px 1px 2px 1px rgba(0,0,0,.2);
+}
+
 #homepage{
   width:100%;
   margin:0px;
-  height: 600px;
-  background: linear-gradient(#827ffe,#5492de);
+  height: 700px;
+  background-image: url('https://i.ibb.co/pZGK7XZ/home.png');
+  background-position: center middle;
+  background-size: 100% auto;
 }
 
 #homepage2{
@@ -53,11 +83,17 @@ body{
   background: #F8F8F8;
 }
 
+#circles{
+    padding: 0px;
+}
+
 #homepageB{
   width:100%;
   margin:0px;
   height: 800px;
-  background: linear-gradient(#827ffe,#5492de);
+  background-image: url('https://i.ibb.co/pZGK7XZ/home.png');
+  background-position: center middle;
+  background-size: 100% auto;
 }
 
 #mid{
@@ -105,11 +141,27 @@ body{
   box-shadow: 0px 1px 2px 1px rgba(0,0,0,.2);
 }
 
+#rightbox2{
+  width:30%;
+  position: absolute;
+  left: 50%;
+  bottom: 15%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%)
+  margin: 5% 0% 0 3%;
+  padding: 1% 2% 1% 2%;
+  border-style: solid;
+  border-radius: 10px;
+  border-color: white;
+  background-color: white;
+  box-shadow: 0px 1px 2px 1px rgba(0,0,0,.2);
+}
+
 #leftbox{
-  width:15%;
+  width:16%;
   float: left;
   margin: 5% 0% 5% 5%;
-  padding: 0% 3% 3% 3%;
+  padding: 0% 2% 2% 2%;
   border-style: solid;
   border-radius: 10px;
   border-color: white;
@@ -336,6 +388,17 @@ body{
   font-weight: 600;
 }
 
+#left-title-show{
+  font-family: 'Avenir Next', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  color: #827ffe;
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: .7px;
+  width: 100%;
+  font-weight: 600;
+}
+
 #queryTitle{
   font-family: 'Avenir Next', Helvetica, Arial, sans-serif;
   font-size: 14px;
@@ -462,8 +525,9 @@ body{
   width: 100%;
   background: white;
   height: 32px;
-  padding: 0px 0px 0px 10%;
+  padding: 0px 5px 0px 5%;
   letter-spacing: 1px;
+  text-align: center;
 }
 
 #bankAccount::placeholder{
@@ -649,6 +713,21 @@ body{
   cursor: pointer;
 }
 
+#addCard{
+  border-radius: 100px;
+  outline:none;
+  font-family: 'Avenir Next', Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  color: #fff;
+  text-transform: ;
+  margin: 10px auto 5px auto;
+  width: 49.4%;
+  height: 32px;
+  text-align:center;
+  cursor: pointer;
+  background-image: linear-gradient(to right, #7297ff , #aba9ff);
+}
 
 #addChar{
   border-radius: 100px;
@@ -691,8 +770,9 @@ body{
 #signup,
 #list,
 #addCharity{
-  font-family: Ubuntu-Bold;
+  font-family: 'Avenir Next', Helvetica, Arial, sans-serif;
   font-size: 13px;
+  font-weight: 300;
   color: #827ffe;
   text-align: center;
   font-weight: bold;
@@ -703,12 +783,11 @@ body{
 #quickSearch{
   font-family: 'Avenir Next', Helvetica, Arial, sans-serif;
   font-size: 13px;
+  font-weight: 300px;
   color: #827ffe;
   text-align: center;
-  font-weight: bold;
   margin-top: 10px;
   color: #827ffe;
-  text-transform: uppercase;
 }
 
 
@@ -905,15 +984,35 @@ a:link {
   fill: #d782d9;
 }
 
-.dot {
-
-  height: 40px;
-  width: 40px;
+.dot{
+  height: 50px;
+  width: 50px;
   background-color: #ccccff;
   border-radius: 50%;
   display: inline-block;
   cursor: pointer;
-  margin-top: 30px;
+  margin-top: 20px;
   margin-left: 10px;
   margin-right: 10px;
+
+}
+
+.dot1{
+   background: url(/assets/acs.png);
+
+   height: 50px;
+  width: 50px;
+  background-color: #ccccff;
+  border-radius: 50%;
+  display: inline-block;
+  cursor: pointer;
+  margin-top: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
+
+}
+
+.dot:active {
+  border-color: transparent; /* remove the border's colour */
+    box-shadow: 0 0 0 3px white; /* emulate the border */
 }
