@@ -1,3 +1,6 @@
+## Linked To Demo
+https://devpost.com/software/charity-change
+
 ## Inspiration
 Weeks of wildfires left Australia with $100 billion in damages. This included 25 million acres burned and 1 billion animals fearing for their lives. Inspired by helping out similar sustainability efforts, we decided to come with a solution that encouraged more people to donate to charities. 
 In the USA alone, the population is approximately 300 million people, where 60% of them donate. Therefore, approximately 200 million donate. Additionally, The Nature Conservancy states that it costs approximately $1-3 to plant a tree. As a result, if 200 million people donate just $1 per day, within the span of a year, 70% of Australia's Wildfire damages will have been met. 
@@ -23,4 +26,4 @@ We learned how to deploy a web application using the AWS EC2 server.
 ## What's next for Charity Change
 
 So far, we have created a website for users to find a certain charity and donate their pocket change. We have added functionality so the user can add his or her credit card, but we haven't yet worked on transferring the funds from one account into the desired charity. Our next steps are to link increase security and authorization, connect with many banks to attract more users, and add more charitable organizations.
-# Charity-Change
+
